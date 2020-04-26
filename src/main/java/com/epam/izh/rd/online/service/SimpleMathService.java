@@ -13,7 +13,18 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int compare(int value1, int value2) {
-        return -2;
+
+        int result = 0;
+
+        if (value1 < value2){
+            result = -1;
+        }
+
+        if (value1 > value2){
+            result = 1;
+        }
+
+        return result;
     }
 
     /**
@@ -22,7 +33,7 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int maxFrom(int value1, int value2) {
-        return -1;
+        return value1 > value2 ? value1 : value2;
     }
 
     /**
@@ -31,7 +42,8 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int maxFrom(int[] values) {
-        return -1;
+        sort(values);
+        return values[values.length - 1];
     }
 
     /**
@@ -40,7 +52,7 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int sum(int[] values) {
-        return -1;
+        return IntStream.of(values).sum();
     }
 
     /**
@@ -49,7 +61,7 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int[] getEvenDigits(int[] values) {
-        return new int[]{};
+        return IntStream.of(values).filter(x -> x%2 == 0).toArray();
     }
 
     /**
@@ -59,11 +71,18 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public long calcFactorial(int initialVal) {
-        return -1L;
+
+        long result = 1;
+
+        for (int i = 1; i <= initialVal; i++){
+            result *= i;
+        }
+
+        return result;
     }
 
     /**
-     * Метод возвращает число, которе находится на заданной позиции (счет начинается с нуля) в ряду фибоначчи.
+     * Метод возвращает число, которое находится на заданной позиции (счет начинается с нуля) в ряду фибоначчи.
      *
      * Ряд фибоначчи - ряд, следующие элементы которого состоят из суммы двух предыдущих.
      * Ряд начинается 0 и 1.
@@ -74,7 +93,26 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public long calcFibonacci(int number) {
-        return -1L;
+
+        long firstValue = 0;
+        long secondValue = 1;
+        long result = 0;
+
+        if (number == 0) {
+            return firstValue;
+        }
+
+        if (number == 1) {
+            return secondValue;
+        }
+
+        for (int i = 0; i < number - 1; i++) {
+            result = firstValue + secondValue;
+            firstValue = secondValue;
+            secondValue = result;
+        }
+
+        return result;
     }
 
     /**
@@ -83,7 +121,20 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int[] sort(int[] values) {
-        return new int[]{};
+
+        for (int i = values.length - 1; i > 0; i--) {
+
+            for (int j = 0; j < i; j++) {
+
+                if (values[j] > values[j + 1]) {
+                    int switchVar = values[j];
+                    values[j] = values[j + 1];
+                    values[j + 1] = switchVar;
+                }
+            }
+        }
+
+        return values;
     }
 
     /**
@@ -94,7 +145,12 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public boolean isPrimary(int number) {
-        return false;
+
+        if (number == 2 || number == 3){
+            return true;
+        }
+
+        return (number % 2 != 0) && (number % 3 != 0);
     }
 
     /**
@@ -104,6 +160,13 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int[] reverseArray(int[] values) {
-        return new int[]{};
+
+        int[] reverseArray = new int[values.length];
+
+        for (int i = 0; i < values.length; i ++){
+            reverseArray[reverseArray.length - i -1] = values[i];
+        }
+
+        return reverseArray;
     }
 }
